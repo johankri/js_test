@@ -1,0 +1,73 @@
+<html lang="">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .cards {
+        display: grid;
+        height: 100%;
+        margin: auto;
+    }
+
+    .card {
+        max-width: 95%;
+        max-height: 95vh;
+        margin: auto;
+        border-radius: 4.75% / 3.5%;
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+    }
+    
+    #back {
+        margin-top: 20px;
+    }
+    
+</style>
+
+<script>
+    scryfall = "https://api.scryfall.com/cards/random?q=%28set%3Amom+or+set%3Amul%29+%28r%3Ac+or+r%3Au%29"
+
+    function getFrontImage() {
+        return document.getElementById("front");
+    }
+
+    function getBackImage() {
+        return document.getElementById("back");
+    }
+    
+    function setImage(element, card) {
+        element.src = card.image_uris.large
+        foo = card.type_line
+        if (card.type_line.startsWith("Battle")) {
+            element.style.transform = 'rotate(90deg)';
+        }
+    }
+
+    function setImages(json) {
+        if (json.card_faces != null) {
+            setImage(getFrontImage(), json.card_faces[0]);
+            setImage(getBackImage(), json.card_faces[1]);
+        } else {
+            setImage(getFrontImage(), json)
+            getBackImage().remove();
+        }
+    }
+
+    fetch(scryfall)
+        .then((response) => response.json())
+        .then((json) => {
+            setImages(json)
+        })
+
+</script>
+
+<body>
+<div class="cards">
+    <img id="front" class="card" alt="">
+    <img id="back" class="card" alt="">
+</div>
+</body>
+
+</html>
