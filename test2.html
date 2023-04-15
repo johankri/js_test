@@ -71,8 +71,15 @@
         const cards = document.getElementById("cards")
         const image = document.createElement("img")
         image.className = "card"
-        image.src = card.image_uris.large
         cards.appendChild(image);
+        image.src = "Back.jpg"
+        card.then((value) => {
+            if (value.card_faces != null) {
+                image.src = value.card_faces[0].image_uris.large
+            } else {
+                image.src = value.image_uris.large
+            }
+        })
     }
 
     let cards = []
@@ -89,7 +96,7 @@
     cards.push(getLand("s:MOM"))
     console.log(cards.length)
 
-    cards.forEach(card => card.then((value) => addImage(value)))
+    cards.forEach(card => addImage(card))
 
 </script>
 </html>

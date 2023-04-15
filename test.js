@@ -1,5 +1,15 @@
 import fetch from 'node-fetch'
 
+// JK: Marginal där uppe
+// JK: Inga andra double faced cards
+// JK: Inga andra länder
+// JK: Inga dubletter
+// JK: Visa stor bild vid hoover
+// JK: Rare ska vara Uncommon ibland
+// JK: Small images
+// JK: Visa baksida på double faced card
+
+
 function getRarity(distribution) {
     const random = Math.random()
     let sum = 0
@@ -43,7 +53,7 @@ let cards = []
 cards.push(await getSpecialSheetCard("s:MUL"))
 cards.push(await getSpecialSheetCard("s:MOM t:Battle"))
 cards.push(await getSpecialSheetCard("s:MOM is:doublefaced -t:battle"))
-cards.push(await getRare("s:MOM")) // JK: Uncommon
+cards.push(await getRare("s:MOM"))
 for (let i = 0; i < 2; i++) {
     cards.push(await getUncommon("s:MOM"))
 }
