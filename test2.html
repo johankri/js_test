@@ -1,0 +1,95 @@
+<html lang="">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #cards {
+        #display: grid;
+        #grid-auto-flow: row;
+        #grid-template: repeat(2, 1fr) / repeat(8, 1fr);
+        height: 100%;
+        text-align: center;
+    }
+
+    .card {
+        max-width: 30%;
+        max-height: 30vh;
+        border-radius: 4.75% / 3.5%;
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+        margin: 5px;
+    }
+</style>
+<body>
+<div id="cards">
+</div>
+</body>
+
+<script>
+    function getRarity(distribution) {
+        const random = Math.random()
+        let sum = 0
+        return Object.keys(distribution).find(key => {
+            sum = sum + distribution[key]
+            return random < sum
+        });
+    }
+
+    async function getRandomCard(query) {
+        const url = `https://api.scryfall.com/cards/random?q=${encodeURIComponent(query + ' in:booster')}`
+        const response = await fetch(url)
+        return await response.json()
+    }
+
+    async function getSpecialSheetCard(query) {
+        const distribution = {"m": (1 / 5) * (1 / 3), "r": (4 / 5) * (1 / 3), "u": 2 / 3}
+        const rarity = getRarity(distribution)
+        return await getRandomCard(`${query} and r:${rarity}`)
+    }
+
+    async function getRare(query) {
+        const distribution = {"m": (1 / 7.4) * (1 / 3), "r": (6.4 / 7.4)}
+        const rarity = getRarity(distribution)
+        return await getRandomCard(`${query} and r:${rarity}`)
+    }
+
+    async function getUncommon(query) {
+        return await getRandomCard(`${query} and r:u`)
+    }
+
+    async function getCommon(query) {
+        return await getRandomCard(`${query} and r:c`)
+    }
+
+    async function getLand(query) {
+        return await getRandomCard(`${query} and t:land`)
+    }
+
+    async function addImage(card) {
+        const cards = document.getElementById("cards")
+        const image = document.createElement("img")
+        image.className = "card"
+        image.src = card.image_uris.large
+        cards.appendChild(image);
+    }
+
+    let cards = []
+    cards.push(getSpecialSheetCard("s:MUL"))
+    cards.push(getSpecialSheetCard("s:MOM t:Battle"))
+    cards.push(getSpecialSheetCard("s:MOM is:doublefaced -t:battle"))
+    cards.push(getRare("s:MOM")) // JK: Uncommon
+    for (let i = 0; i < 2; i++) {
+        cards.push(getUncommon("s:MOM"))
+    }
+    for (let i = 0; i < 8; i++) {
+        cards.push(getCommon("s:MOM"))
+    }
+    cards.push(getLand("s:MOM"))
+    console.log(cards.length)
+
+    cards.forEach(card => card.then((value) => addImage(value)))
+
+</script>
+</html>
