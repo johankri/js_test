@@ -72,7 +72,7 @@
     }
 
     async function getRare(query) {
-        const distribution = {"m": (1 / 7.4) * (1 / 3), "r": (6.4 / 7.4)}
+        const distribution = {"m": (1 / 7.4), "r": (6.4 / 7.4)}
         const rarity = getRarity(distribution)
         return await getRandomCard(`${query} and r:${rarity}`)
     }
@@ -120,7 +120,8 @@
         image.onmouseout = hideZoom;
         card.then((value) => {
             image.src = getImage(value);
-            image.onmouseover = function () { showZoom(value)};
+            image.onmousedown = function () { showZoom(value)};
+            
         })
     }
 
@@ -130,7 +131,7 @@
     cards.push(getSpecialSheetCard("s:MOM is:doublefaced -t:battle"))
     cards.push(getRare("s:MOM -is:doublefaced -t:land"))
     for (let i = 0; i < 2; i++) {
-        cards.push(getRandomCard("s:MOM r:u -is:doublefaced -t:land"))
+        // cards.push(getRandomCard("s:MOM r:u -is:doublefaced -t:land"))
     }
     for (let i = 0; i < 8; i++) {
         cards.push(getRandomCard("s:MOM r:c -is:doublefaced -t:land"))
@@ -141,8 +142,9 @@
 
     // JK: Rare ska vara Uncommon ibland
     // JK: Small images
-    // JK: Visa baksida på double faced card
     // JK: Styla Layout som på arenan
+    // JK: Save Pack
+    // JK: Seed
     
 </script>
 </html>
