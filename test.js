@@ -5,3 +5,9 @@ serve((_req) => {
         headers: { "content-type": "text/plain" },
     });
 });
+
+const reqHandler = async (req: Request) => {
+    const filePath = new URL(req.url).pathname;
+    return new Response(filePath);
+};
+serve(reqHandler, { port: 8080 });
