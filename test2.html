@@ -20,7 +20,7 @@
     }
 
     #zoom {
-        display: grid;
+        display: none;
         height: 100%;
         position: absolute;
         left: 0;
@@ -31,7 +31,7 @@
         pointer-events: none;
     }
 
-    #full {
+    #fullFront, #fullBack {
         max-width: 95%;
         max-height: 95vh;
         margin: auto;
@@ -42,7 +42,8 @@
 </style>
 <body>
 <div id="zoom">
-    <img id="full" src="https://cards.scryfall.io/large/front/4/7/47f7d313-8333-41fe-8bfa-c96774dac228.jpg?1680826646" alt="">
+    <img id="fullFront" src="" alt="">
+    <img id="fullBack" src="" alt="">
 </div>
 <div id="cards">
 </div>
@@ -76,25 +77,38 @@
         return await getRandomCard(`${query} and r:${rarity}`)
     }
 
-    async function getUncommon(query) {
-        return await getRandomCard(`${query} and r:u`)
+    function showZoom(card) {
+        const zoom = document.getElementById("zoom");
+        const front = document.getElementById("fullFront");
+        const back = document.getElementById("fullBack");
+
+        zoom.style.display = "flex"
+        if (card.card_faces != null) {
+            front.src = card.card_faces[0].image_uris.large
+            back.src = card.card_faces[1].image_uris.large
+            back.style.display = "inherit";
+        } else {
+            front.src = card.image_uris.large
+            back.src = ""
+            back.style.display = "none";
+        }
+        if (card.type_line.startsWith("Battle")) {
+            front.style.transform = 'rotate(90deg)';
+        } else {
+            front.style.transform = 'none';
+        }
     }
 
-    async function getCommon(query) {
-        return await getRandomCard(`${query} and r:c`)
-    }
-
-    async function getLand(query) {
-        return await getRandomCard(`${query} and t:land`)
-    }
-
-    function showZoom(event) {
-        document.getElementById("zoom").style.display = "grid"
-        document.getElementById("full").src = event.target.src;
-    }
-
-    function hideZoom(event) {
+    function hideZoom() {
         document.getElementById("zoom").style.display = "none"
+    }
+
+    function getImage(value, image) {
+        if (value.card_faces != null) {
+            return value.card_faces[0].image_uris.large
+        } else {
+            return value.image_uris.large
+        }
     }
 
     async function addImage(card) {
@@ -103,14 +117,10 @@
         image.className = "card"
         cards.appendChild(image)
         image.src = "Back.jpg"
-        image.onmouseover = showZoom;
         image.onmouseout = hideZoom;
         card.then((value) => {
-            if (value.card_faces != null) {
-                image.src = value.card_faces[0].image_uris.large
-            } else {
-                image.src = value.image_uris.large
-            }
+            image.src = getImage(value);
+            image.onmouseover = function () { showZoom(value)};
         })
     }
 
@@ -118,21 +128,17 @@
     cards.push(getSpecialSheetCard("s:MUL"))
     cards.push(getSpecialSheetCard("s:MOM t:Battle"))
     cards.push(getSpecialSheetCard("s:MOM is:doublefaced -t:battle"))
-    cards.push(getRare("s:MOM")) // JK: Uncommon
+    cards.push(getRare("s:MOM -is:doublefaced -t:land"))
     for (let i = 0; i < 2; i++) {
-        cards.push(getUncommon("s:MOM"))
+        cards.push(getRandomCard("s:MOM r:u -is:doublefaced -t:land"))
     }
     for (let i = 0; i < 8; i++) {
-        cards.push(getCommon("s:MOM"))
+        cards.push(getRandomCard("s:MOM r:c -is:doublefaced -t:land"))
     }
-    cards.push(getLand("s:MOM"))
+    cards.push(getRandomCard("s:MOM t:land"))
 
     cards.forEach(card => addImage(card))
 
-    // JK: Inga andra double faced cards
-    // JK: Inga andra länder
-    // JK: Inga dubletter
-    // JK: Visa stor bild vid hoover
     // JK: Rare ska vara Uncommon ibland
     // JK: Small images
     // JK: Visa baksida på double faced card
