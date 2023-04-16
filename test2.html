@@ -7,10 +7,7 @@
     }
 
     #cards {
-        #display: grid;
-        #grid-auto-flow: row;
-        #grid-template: repeat(2, 1fr) / repeat(8, 1fr);
-        height: 100%;
+        margin: 30px;
         text-align: center;
     }
 
@@ -21,8 +18,32 @@
         box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
         margin: 5px;
     }
+
+    #zoom {
+        display: grid;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        pointer-events: none;
+    }
+
+    #full {
+        max-width: 95%;
+        max-height: 95vh;
+        margin: auto;
+        border-radius: 4.75% / 3.5%;
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+    }
+
 </style>
 <body>
+<div id="zoom">
+    <img id="full" src="https://cards.scryfall.io/large/front/4/7/47f7d313-8333-41fe-8bfa-c96774dac228.jpg?1680826646" alt="">
+</div>
 <div id="cards">
 </div>
 </body>
@@ -67,12 +88,23 @@
         return await getRandomCard(`${query} and t:land`)
     }
 
+    function showZoom(event) {
+        document.getElementById("zoom").style.display = "grid"
+        document.getElementById("full").src = event.target.src;
+    }
+
+    function hideZoom(event) {
+        document.getElementById("zoom").style.display = "none"
+    }
+
     async function addImage(card) {
         const cards = document.getElementById("cards")
         const image = document.createElement("img")
         image.className = "card"
-        cards.appendChild(image);
+        cards.appendChild(image)
         image.src = "Back.jpg"
+        image.onmouseover = showZoom;
+        image.onmouseout = hideZoom;
         card.then((value) => {
             if (value.card_faces != null) {
                 image.src = value.card_faces[0].image_uris.large
@@ -94,9 +126,17 @@
         cards.push(getCommon("s:MOM"))
     }
     cards.push(getLand("s:MOM"))
-    console.log(cards.length)
 
     cards.forEach(card => addImage(card))
 
+    // JK: Inga andra double faced cards
+    // JK: Inga andra länder
+    // JK: Inga dubletter
+    // JK: Visa stor bild vid hoover
+    // JK: Rare ska vara Uncommon ibland
+    // JK: Small images
+    // JK: Visa baksida på double faced card
+    // JK: Styla Layout som på arenan
+    
 </script>
 </html>

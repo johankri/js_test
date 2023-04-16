@@ -1,15 +1,5 @@
 import fetch from 'node-fetch'
 
-// JK: Marginal där uppe
-// JK: Inga andra double faced cards
-// JK: Inga andra länder
-// JK: Inga dubletter
-// JK: Visa stor bild vid hoover
-// JK: Rare ska vara Uncommon ibland
-// JK: Small images
-// JK: Visa baksida på double faced card
-
-
 function getRarity(distribution) {
     const random = Math.random()
     let sum = 0
