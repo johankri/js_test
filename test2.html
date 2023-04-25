@@ -60,7 +60,7 @@
     }
 
     async function getRandomCard(query) {
-        const url = `https://api.scryfall.com/cards/random?q=${encodeURIComponent(query + ' in:booster')}`
+        const url = `https://api.scryfall.com/cards/random?q=${encodeURIComponent(query + ' in:booster number<300')}`
         const response = await fetch(url)
         return await response.json()
     }
