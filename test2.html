@@ -83,15 +83,9 @@
         const back = document.getElementById("fullBack");
 
         zoom.style.display = "flex"
-        if (card.card_faces != null) {
-            front.src = card.card_faces[0].image_uris.large
-            back.src = card.card_faces[1].image_uris.large
-            back.style.display = "inherit";
-        } else {
-            front.src = card.image_uris.large
-            back.src = ""
-            back.style.display = "none";
-        }
+        front.src = card.image_uris.large
+        back.src = ""
+        back.style.display = "none";
         if (card.type_line.startsWith("Battle")) {
             front.style.transform = 'rotate(90deg)';
         } else {
@@ -104,11 +98,7 @@
     }
 
     function getImage(value, image) {
-        if (value.card_faces != null) {
-            return value.card_faces[0].image_uris.large
-        } else {
-            return value.image_uris.large
-        }
+        return value.image_uris.large
     }
 
     async function addImage(card) {
