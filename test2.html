@@ -60,7 +60,7 @@
     }
 
     async function getRandomCard(query) {
-        const url = `https://api.scryfall.com/cards/random?q=${encodeURIComponent(query + ' in:booster number<300')}`
+        const url = `https://api.scryfall.com/cards/random?q=${encodeURIComponent(query + ' in:booster')}`
         const response = await fetch(url)
         return await response.json()
     }
@@ -126,17 +126,15 @@
     }
 
     let cards = []
-    cards.push(getSpecialSheetCard("s:MUL"))
-    cards.push(getSpecialSheetCard("s:MOM t:Battle"))
-    cards.push(getSpecialSheetCard("s:MOM is:doublefaced -t:battle"))
-    cards.push(getRare("s:MOM -is:doublefaced -t:land"))
-    for (let i = 0; i < 2; i++) {
-        cards.push(getRandomCard("s:MOM r:u -is:doublefaced -t:land"))
+    cards.push(getRare("s:WOE"))
+    cards.push(getSpecialSheetCard("s:WOT"))
+    for (let i = 0; i < 3; i++) {
+        cards.push(getRandomCard("s:WOE r:u"))
     }
-    for (let i = 0; i < 8; i++) {
-        cards.push(getRandomCard("s:MOM r:c -is:doublefaced -t:land"))
+    for (let i = 0; i < 9; i++) {
+        cards.push(getRandomCard("s:WOE r:c -t:land"))
     }
-    cards.push(getRandomCard("s:MOM t:land"))
+    cards.push(getRandomCard("s:WOE t:land"))
 
     cards.forEach(card => addImage(card))
 
