@@ -1,0 +1,95 @@
+<html lang="">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .cards {
+        display: grid;
+        height: 100%;
+        margin: auto;
+    }
+
+    .card {
+        max-width: 95%;
+        max-height: 95vh;
+        margin: auto;
+        border-radius: 4.75% / 3.5%;
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+    }
+    
+    #back {
+        margin-top: 20px;
+    }
+    
+</style>
+
+<script>
+    scryfall = "https://api.scryfall.com/cards/random?q=set%3Amh3+%28r%3Ac+or+r%3Au%29"
+    baseUrl = "https://api.scryfall.com/cards/random?q="
+    set = "BLB"
+    booster = "+cn<277"
+    scryfallCommon = baseUrl + "set%3A" + set + "+r%3Ac+-t%3Aland" + booster
+    scryfallUncommon = baseUrl + "set%3A" + set + "+r%3Au" + booster
+    scryfallRare = baseUrl + "set%3A" + set + "+r%3Ar" + booster
+    scryfallMythicRare = baseUrl + "set%3A" + set + "+r%3Am" + booster
+    scryfallBasicLand = baseUrl + "set%3A" + set + "+r%3Ac+t%3Aland" + booster
+    scryfallTheList = baseUrl + "set%3A" + set + "+r%3Ac+-t%3Aland"
+
+    function setImage(card) {
+        let element = document.getElementById("front");
+        if (card.image_uris != null) {
+            element.src = card.image_uris.large
+        }
+        else {
+            element.src = card.card_faces[0].image_uris.large
+        }
+    }
+
+    function getRandomCard() {
+        let slot = getRandomSlot()
+
+        if (slot <= 6) {
+            return scryfallCommon
+        }
+        if (slot <= 7) {
+            return scryfallTheList
+        }
+        if (slot <= 10) {
+            return scryfallUncommon
+        }
+        if (slot <= 11) {
+            let rareSlot = getRareSlot()
+            if (rareSlot <= 1) {
+                return scryfallMythicRare
+            }
+            return scryfallRare
+        }
+        return scryfallBasicLand
+    }
+    
+    function getRandomSlot() {
+        return Math.floor(Math.random() * 12) + 1;
+    }
+    
+    function getRareSlot() {
+        return Math.floor(Math.random() * 5) + 1;
+    }
+
+    fetch(getRandomCard())
+        .then((response) => response.json())
+        .then((json) => {
+            setImage(json)
+        })
+
+</script>
+
+<body>
+<div class="cards">
+    <img id="front" class="card" alt="">
+</div>
+</body>
+
+</html>

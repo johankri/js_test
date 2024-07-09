@@ -1,7 +1,28 @@
 <html lang="">
-<input id="butOpenFile" type="button">
-<script>
-    Console.Log(new FileReader().readAsText('file://test'))
-</script>
-</html>
 
+<style>
+    .card {
+        height: 95%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        border-radius: 4.75% / 3.5%;
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+    }
+</style>
+
+<body>
+    <img id="card" class="card" src="Back.jpg" alt="">
+</body>
+
+
+<script>
+    document.getElementById("card").src = "https://api.scryfall.com/cards/random?q=%28set%3Alci&format=image";
+// https://scryfall.com/random?q=set:lci%20rarity:{RandomRarity()}
+    // get img with id card
+</script>
+
+</html>
