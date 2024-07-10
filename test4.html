@@ -26,6 +26,12 @@
     
 </style>
 
+<body>
+<div class="cards">
+    <img id="front" class="card" alt="">
+</div>
+</body>
+
 <script>
     scryfall = "https://api.scryfall.com/cards/random?q=set%3Amh3+%28r%3Ac+or+r%3Au%29"
     baseUrl = "https://api.scryfall.com/cards/random?q="
@@ -69,14 +75,19 @@
         }
         return scryfallBasicLand
     }
-    
+
     function getRandomSlot() {
         return Math.floor(Math.random() * 12) + 1;
     }
-    
+
     function getRareSlot() {
         return Math.floor(Math.random() * 5) + 1;
     }
+
+    let image = document.getElementById('front');
+    image.addEventListener('click', function() {
+        location.reload();
+    });
 
     fetch(getRandomCard())
         .then((response) => response.json())
@@ -84,12 +95,7 @@
             setImage(json)
         })
 
-</script>
 
-<body>
-<div class="cards">
-    <img id="front" class="card" alt="">
-</div>
-</body>
+</script>
 
 </html>
