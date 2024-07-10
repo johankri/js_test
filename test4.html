@@ -36,12 +36,13 @@
     scryfall = "https://api.scryfall.com/cards/random?q=set%3Amh3+%28r%3Ac+or+r%3Au%29"
     baseUrl = "https://api.scryfall.com/cards/random?q="
     set = "BLB"
-    booster = "+cn<277"
+    booster = "+cn<282"
     scryfallCommon = baseUrl + "set%3A" + set + "+r%3Ac+-t%3Aland" + booster
     scryfallUncommon = baseUrl + "set%3A" + set + "+r%3Au" + booster
     scryfallRare = baseUrl + "set%3A" + set + "+r%3Ar" + booster
     scryfallMythicRare = baseUrl + "set%3A" + set + "+r%3Am" + booster
     scryfallBasicLand = baseUrl + "set%3A" + set + "+r%3Ac+t%3Aland" + booster
+    // https://scryfall.com/search?as=grid&extras=true&lang=any&order=set&q=set%3Aspg+date%3Dblb&unique=cards
     scryfallTheList = baseUrl + "set%3A" + set + "+r%3Ac+-t%3Aland"
 
     function setImage(card) {
