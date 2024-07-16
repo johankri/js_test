@@ -58,27 +58,27 @@
     function getRandomCard() {
         let slot = getRandomSlot()
 
-        if (slot <= 6) {
-            return scryfallCommon
-        }
-        if (slot <= 7) {
-            return scryfallTheList
-        }
-        if (slot <= 10) {
-            return scryfallUncommon
-        }
-        if (slot <= 11) {
+        if (slot === 1) {
             let rareSlot = getRareSlot()
-            if (rareSlot <= 1) {
+            if (rareSlot === 1) {
                 return scryfallMythicRare
             }
             return scryfallRare
         }
-        return scryfallBasicLand
+        if (slot === 2) {
+            return scryfallTheList
+        }
+        if (slot === 3) {
+            return scryfallBasicLand
+        }
+        if (slot <= 6) {
+            return scryfallUncommon
+        }
+        return scryfallCommon
     }
 
     function getRandomSlot() {
-        return Math.floor(Math.random() * 12) + 1;
+        return Math.floor(Math.random() * 14) + 1;
     }
 
     function getRareSlot() {
